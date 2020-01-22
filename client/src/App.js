@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { createConnection, toggleButton } from './action';
+import Account from './components/account';
+import ChatWindow from './components/chatWindow';
 
 class App extends Component {
 	constructor(props) {
@@ -11,11 +13,11 @@ class App extends Component {
 		const { createConnection, comming, toggleButton, connection } = this.props;
 		const { nameField } = this.state;
 		return (
-			<Fragment>
+			<div className="container-wrapper">
 				{connection ? (
-					<div>
-						<h1>Hello: </h1>
-						{connection.user}
+					<div className="body-wrapper">
+						<Account />
+						<ChatWindow />
 					</div>
 				) : (
 					<div>
@@ -34,7 +36,7 @@ class App extends Component {
 						)}
 					</div>
 				)}
-			</Fragment>
+			</div>
 		);
 	}
 }
