@@ -3,7 +3,7 @@ import axios from 'axios';
 let ws;
 
 export const SocketConnect = (data) => ({
-	type: 'SOCKET',
+	type: 'SOCKET_CONNECTION',
 	payload: data
 });
 
@@ -19,14 +19,26 @@ export const createConnection = (data) => (dispatch) => {
 	})
 		.then((response) => {
 			ws = new WebSocket('ws://172.24.211.94:81');
-			console.log(ws);
+			const { SID } = response.data;
 			ws.onopen = () => {
 				console.log('connection is opened');
-				dispatch(SocketConnect(response.data.SID));
-				ws.send(JSON.stringify({ user: data, user_id: response.data.SID }));
+
+				ws.send(JSON.stringify({ user: { name: data, user_id: SID }, msg: 'Connection' }));
 			};
 			ws.onmessage = (message) => {
-				console.log(message.data);
+				const parsedData = JSON.parse(message.data);
+				switch (parsedData.msg) {
+					case 'UserCreateConnected': {
+						dispatch(SocketConnect(parsedData));
+						break;
+					}
+					case 'connectionUsers': {
+						console.log(parsedData);
+					}
+					default: {
+						return null;
+					}
+				}
 			};
 			ws.onerror = (error) => {
 				console.log(error);

@@ -2,7 +2,7 @@ export default (state = {}, action) => {
 	const payload = action.payload;
 	console.log(action);
 	switch (action.type) {
-		case 'SOCKET': {
+		case 'SOCKET_CONNECTION': {
 			return { ...state, connection: payload };
 		}
 		case 'TOGGLE_BUTTON': {

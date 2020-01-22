@@ -8,23 +8,31 @@ class App extends Component {
 		this.state = { nameField: ' ' };
 	}
 	render() {
-		const { createConnection, comming, toggleButton } = this.props;
+		const { createConnection, comming, toggleButton, connection } = this.props;
 		const { nameField } = this.state;
-		console.log(nameField);
 		return (
 			<Fragment>
-				{comming ? (
-					<div className="form">
-						<p>Write your name:</p>
-						<input
-							onChange={(e) => {
-								this.setState({ nameField: e.target.value });
-							}}
-						/>
-						<button onClick={() => createConnection(nameField)}>Submit</button>
+				{connection ? (
+					<div>
+						<h1>Hello: </h1>
+						{connection.user}
 					</div>
 				) : (
-					<button onClick={() => toggleButton(true)}>Connect to chat</button>
+					<div>
+						{comming ? (
+							<div className="form">
+								<p>Write your name:</p>
+								<input
+									onChange={(e) => {
+										this.setState({ nameField: e.target.value });
+									}}
+								/>
+								<button onClick={() => createConnection(nameField)}>Submit</button>
+							</div>
+						) : (
+							<button onClick={() => toggleButton(true)}>Connect to chat</button>
+						)}
+					</div>
 				)}
 			</Fragment>
 		);

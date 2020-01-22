@@ -3,13 +3,17 @@ import os from 'os';
 import http from 'http';
 import uuid from 'uuid';
 import cors from 'cors';
-import webSocket from 'ws';
+import Filter from './filter';
+import WebSocketServer from 'websocket';
+import EventEmitter from 'events';
 
 const HOST = os.networkInterfaces().Ethernet[1].address;
 const PORT = 80;
 const WEB_PORT = 81;
 
 const app = express();
+let SESSION = new Map();
+const emitter = new EventEmitter();
 app.use(cors());
 
 app.get('/socket', (req, res) => {
@@ -27,14 +31,24 @@ server.listen(WEB_PORT, () => {
 	console.log(`Socket server working on PORT - ${WEB_PORT}`);
 });
 
-const wsServer = new webSocket.Server({ server });
+const wsServer = new WebSocketServer.server({
+	httpServer: server
+});
 
-wsServer.on('connection', (ws) => {
-	console.log('connection created');
-	ws.on('message', (message) => {
+wsServer.on('request', (request) => {
+	let connection = request.accept(null, request.origin);
+
+	connection.on('message', (message) => {
 		console.log(message);
+		if (message.type === 'utf8') {
+			Filter(connection, SESSION, message.utf8Data, emitter);
+		}
 	});
-	ws.on('close', () => {
-		console.log('connection closed');
+});
+
+emitter.on('connectionUser', () => {
+	SESSION.forEach((val, key) => {
+		console.log(val);
+		val.send(JSON.stringify({ msg: 'connectionUsers', string: 'New User' }));
 	});
 });
