@@ -39,7 +39,6 @@ wsServer.on('request', (request) => {
 	let connection = request.accept(null, request.origin);
 
 	connection.on('message', (message) => {
-		console.log(message);
 		if (message.type === 'utf8') {
 			Filter(connection, SESSION, message.utf8Data, emitter);
 		}
@@ -48,7 +47,6 @@ wsServer.on('request', (request) => {
 
 emitter.on('connectionUser', () => {
 	SESSION.forEach((val, key) => {
-		console.log(val);
-		val.send(JSON.stringify({ msg: 'connectionUsers', string: 'New User' }));
+		val.send(JSON.stringify({ msg: 'connectionUsers', userName: val.userName }));
 	});
 });

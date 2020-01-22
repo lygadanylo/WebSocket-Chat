@@ -8,6 +8,9 @@ export default (state = {}, action) => {
 		case 'TOGGLE_BUTTON': {
 			return { ...state, comming: payload };
 		}
+		case 'NEW_USER_CONNECT': {
+			return { ...state, newUser: payload };
+		}
 		default: {
 			return { ...state, payload };
 		}

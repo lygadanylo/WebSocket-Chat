@@ -1,6 +1,11 @@
 import axios from 'axios';
 
 let ws;
+let userArray = [];
+export const newUserConnect = (data) => ({
+	type: 'NEW_USER_CONNECT',
+	payload: data
+});
 
 export const SocketConnect = (data) => ({
 	type: 'SOCKET_CONNECTION',
@@ -33,7 +38,8 @@ export const createConnection = (data) => (dispatch) => {
 						break;
 					}
 					case 'connectionUsers': {
-						console.log(parsedData);
+						userArray.push(parsedData.userName);
+						dispatch(newUserConnect(userArray));
 					}
 					default: {
 						return null;
