@@ -40,6 +40,7 @@ export const createConnection = (data) => (dispatch) => {
 					case 'connectionUsers': {
 						userArray.push(parsedData.userName);
 						dispatch(newUserConnect(userArray));
+						break;
 					}
 					default: {
 						return null;

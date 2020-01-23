@@ -9,7 +9,7 @@ export default (state = {}, action) => {
 			return { ...state, comming: payload };
 		}
 		case 'NEW_USER_CONNECT': {
-			return { ...state, newUser: payload };
+			return { ...state, newUsers: payload };
 		}
 		default: {
 			return { ...state, payload };

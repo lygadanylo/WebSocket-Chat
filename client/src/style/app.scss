@@ -1,4 +1,5 @@
 @import "./account.scss";
+@import "./userList.scss";
 @import "~bootstrap/scss/bootstrap";
 
 .col,
@@ -93,5 +94,9 @@ body {
 		padding-right: 15px;
 		display: flex;
 		flex-wrap: wrap;
+		.left-column {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 }
